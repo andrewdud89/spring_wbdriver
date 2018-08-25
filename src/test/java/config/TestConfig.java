@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @Configuration
-@ComponentScan(basePackages = {"core", "tests"})
+@ComponentScan(basePackages = {"core.*", "tests.*"})
 public class TestConfig {
 
     static {
@@ -22,7 +22,6 @@ public class TestConfig {
     @Scope("singleton")
     public WebDriver webDriver() {
         return new ChromeDriver();
-
     }
 
 }
