@@ -7,7 +7,7 @@
 //import org.springframework.context.annotation.Configuration;
 //
 //@Configuration
-//@ComponentScan(basePackages = {"core.*", "tests.*"})
+//@ComponentScan(basePackages = {"core.*", "base.tests.*"})
 //public class TestConfig {
 //
 //    static {

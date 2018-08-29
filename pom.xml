@@ -38,6 +38,13 @@
             <artifactId>selenium-chrome-driver</artifactId>
             <version>3.14.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+
         <!--<dependency>-->
         <!--<groupId>org.springframework</groupId>-->
         <!--<artifactId>spring-context</artifactId>-->
@@ -51,11 +58,6 @@
         <!--<scope>test</scope>-->
         <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
-            <version>3.14.0</version>
-        </dependency>
 
     </dependencies>
     <!--<properties>-->
