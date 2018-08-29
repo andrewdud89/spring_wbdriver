@@ -1,11 +1,11 @@
-package core.pages;
+package base.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class SearchPage extends BasePage {
 
     @FindBy(xpath = "ddd")
@@ -16,6 +16,6 @@ public class SearchPage extends BasePage {
     }
 
     public SearchPage() {
-        PageFactory.initElements(webDriver, this);
+
     }
 }
