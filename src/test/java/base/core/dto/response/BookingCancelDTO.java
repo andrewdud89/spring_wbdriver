@@ -1,6 +1,7 @@
 package base.core.dto.response;
 
-import amadeus.core.convertor.Serializable;
+
+import base.core.convertor.Serializable;
 
 public class BookingCancelDTO extends Serializable {
 

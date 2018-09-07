@@ -1,15 +1,14 @@
 package base.core;
 
-import amadeus.cars.automatron.carsbookingengine.core.OfficeId;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.WebDriverScenario;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.DiscountDTO;
-import amadeus.cars.automatron.core.date.DateHelper;
-import amadeus.cars.automatron.core.enums.ECarProviders;
-import amadeus.cars.automatron.core.enums.ECurrency;
-import amadeus.cars.automatron.core.enums.ELanguage;
-import amadeus.cars.automatron.core.iata.IATA;
-import amadeus.cars.automatron.core.iata.IATAEntity;
-import amadeus.core.annotations.RequiredField;
+
+import base.core.annotations.RequiredField;
+import base.core.dto.components.DiscountDTO;
+import base.core.enums.ECarProviders;
+import base.core.enums.ECurrency;
+import base.core.enums.ELanguage;
+import base.core.iata.IATA;
+import base.core.iata.IATAEntity;
+import base.date.DateHelper;
 
 import java.util.ArrayList;
 import java.util.List;

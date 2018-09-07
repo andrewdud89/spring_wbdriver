@@ -1,27 +1,16 @@
 package base.panel;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.api.WhiteLabelApi;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.pageObject.WebPage;
-import amadeus.cars.automatron.core.CarsEnvironment;
-import amadeus.cars.automatron.core.iata.Airport;
-import amadeus.cars.automatron.core.iata.City;
-import amadeus.cars.automatron.core.utils.AllureUtils;
-import amadeus.core.convertor.Serializable;
-import base.core.dto.components.LocationDTO;
-import base.core.iata.IATAEntity;
+
 import base.core.translation.Translations;
+import base.core.utils.AllureUtils;
 import base.date.DateHelper;
 import base.pages.BasePanel;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import ru.yandex.qatools.allure.annotations.Step;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchFormPanel extends BasePanel {
 
@@ -63,12 +52,12 @@ public class SearchFormPanel extends BasePanel {
     }
 
     public AutocompleteBlock pickUpLocation() {
-        return new AutocompleteBlock(driver, pickupAutocompleter);
+        return new AutocompleteBlock(getDriver(), pickupAutocompleter);
     }
 
     public AutocompleteBlock dropOffLocation() {
         clickDropoffLocationOther();
-        return new AutocompleteBlock(driver, dropoffAutocompleter);
+        return new AutocompleteBlock(getDriver(), dropoffAutocompleter);
     }
 
     public DatePickerBlock pickUpDateTime() {
@@ -97,7 +86,11 @@ public class SearchFormPanel extends BasePanel {
     public void search() {
         searchBtn.click();
         waitForUrlChange(5);
-        AllureUtils.clickNotify("Search Button click : " + driver.getCurrentUrl());
+        AllureUtils.clickNotify("Search Button click : " + getDriver().getCurrentUrl());
+    }
+
+    private void waitForUrlChange(int i) {
+
     }
 
     public int getDriverAge() {
@@ -109,99 +102,7 @@ public class SearchFormPanel extends BasePanel {
         new Select(driverAgeSelect).selectByValue(String.valueOf(age));
     }
 
-    public static class AutocompleteBlock extends WebPage {
 
-        public WebElement block;
-        @FindBy(xpath = ".//i[@class='_input-ico']/img")
-        private WebElement locationIcon;
-        @FindBy(xpath = ".//input")
-        private WebElement input;
-        @FindBy(xpath = ".//li[contains(@class, 'item')]")
-        private List<WebElement> suggestedLocationsList;
-        @FindBy(xpath = ".//button[@class='autocompleter__clear-button']")
-        private WebElement closeAutocompleteBtn;
-
-        public AutocompleteBlock(EventFiringWebDriver driver, WebElement element) {
-            super(driver, element);
-            block = element;
-        }
-
-        /**
-         * @return get current location icon (plane/city)
-         */
-        public String getIconName() {
-            String[] parse = locationIcon.getAttribute("src").split("/");
-            return parse[parse.length - 1].replace(".svg", "").trim();
-        }
-
-        /**
-         * @return current Selected Location
-         */
-        public String get() {
-            return input.getAttribute("value");
-        }
-
-        /**
-         * @param iata {@link IATAEntity} city or airport location
-         */
-
-        public void set(IATAEntity iata) {
-
-            backspaceAll(input);
-            input.sendKeys(iata.getCode());
-            waitFor(() -> suggestedLocationsList.size() > 0, 5);
-
-            for (WebElement li : suggestedLocationsList) {
-                String name = li.findElement(By.tagName("span")).getText();
-                if (iata.getFullName().equals(name)) {
-                    li.click();
-                    return;
-                }
-            }
-            throw new WebDriverException(
-                    "unable to find location with name '" + iata.getFullName() + "'"
-            );
-
-        }
-
-        public List<IATAEntity> getSuggested(String code) {
-            List<IATAEntity> suggestions = new ArrayList<>();
-
-            backspaceAll(input);
-            input.sendKeys(code);
-
-            waitFor(() -> suggestedLocationsList.size() > 0, 5);
-            WhiteLabelApi api = new WhiteLabelApi(CarsEnvironment.getInstance().getWhiteLabelUrl());
-
-            List<LocationDTO> data = api.getIATA(code);
-
-            assert data.size() == suggestedLocationsList.size();
-
-            for (WebElement li : suggestedLocationsList) {
-                String name = li.findElement(By.tagName("span")).getText();
-                data.stream()
-                        .filter(locationDTO -> locationDTO.getFullName().equals(name))
-                        .findFirst()
-                        .ifPresent(locationDTO -> {
-                            if (locationDTO.isAirport()) {
-                                suggestions.add(Serializable.deserialize(locationDTO.serialize(), Airport.class));
-                            } else {
-                                suggestions.add(Serializable.deserialize(locationDTO.serialize(), City.class));
-                            }
-                        });
-            }
-            return suggestions;
-        }
-
-        public void closeDropDown() {
-            closeAutocompleteBtn.click();
-        }
-
-        public void clear() {
-            if (isElementPresent(closeAutocompleteBtn))
-                closeAutocompleteBtn.click();
-        }
-    }
 
     public static class DatePickerBlock {
 

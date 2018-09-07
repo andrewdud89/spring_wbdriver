@@ -1,6 +1,6 @@
 package base.core.dto;
 
-import amadeus.core.convertor.Serializable;
+import base.core.convertor.Serializable;
 
 public class FrontendConfigDTO extends Serializable {
     private String wsUrl;

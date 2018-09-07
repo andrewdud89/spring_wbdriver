@@ -1,6 +1,6 @@
 package base.core.dto.components;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.offer.BrokerDTO;
+import base.core.dto.components.offer.BrokerDTO;
 
 import java.util.List;
 

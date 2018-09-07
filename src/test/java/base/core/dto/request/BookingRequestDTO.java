@@ -1,8 +1,8 @@
 package base.core.dto.request;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.DriverDetailDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.PaymentDTO;
-import amadeus.core.convertor.Serializable;
+import base.core.convertor.Serializable;
+import base.core.dto.components.DriverDetailDTO;
+import base.core.dto.components.PaymentDTO;
 
 import java.util.ArrayList;
 import java.util.List;

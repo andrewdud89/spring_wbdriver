@@ -1,6 +1,7 @@
 package base.core.translation;
 
-import amadeus.cars.automatron.core.constants.Dir;
+
+import base.core.constants.Dir;
 import base.core.enums.ELanguage;
 import base.core.helpers.FReader;
 import org.apache.log4j.Logger;

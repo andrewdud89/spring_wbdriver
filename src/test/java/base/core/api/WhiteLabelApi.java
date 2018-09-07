@@ -1,25 +1,26 @@
 package base.core.api;
 
-import amadeus.cars.automatron.carsbookingengine.core.OfficeId;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.ClientConfigDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.LocationDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.request.BookingRequestDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.request.SearchRequestDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.response.BookingCancelDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.response.BookingResponseDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.response.RateInfoDetailsDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.response.SearchResultDTO;
-import amadeus.cars.automatron.core.enums.ELanguage;
-import amadeus.core.convertor.Serializable;
-import amadeus.core.http.HttpClient;
-import amadeus.core.http.HttpClientHeader;
-import amadeus.core.utils.StringUtils;
+
+import base.core.OfficeId;
+import base.core.convertor.Serializable;
+import base.core.dto.ClientConfigDTO;
+import base.core.dto.components.LocationDTO;
+import base.core.dto.request.BookingRequestDTO;
+import base.core.dto.request.SearchRequestDTO;
+import base.core.dto.response.BookingCancelDTO;
+import base.core.dto.response.BookingResponseDTO;
+import base.core.dto.response.RateInfoDetailsDTO;
+import base.core.dto.response.SearchResultDTO;
+import base.core.enums.ELanguage;
+import base.core.http.HttpClient;
+import base.core.http.HttpClientHeader;
+import base.core.utils.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import ru.yandex.qatools.allure.annotations.Step;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,36 +79,46 @@ public class WhiteLabelApi {
         this.domain = domain;
     }
 
-    /**
-     * get translations file data from whiteLabel assets
-     *
-     * @param language
-     * @return translations {@link JSONObject}
-     */
-    @Step("Get Translation for language {0}")
+    //    /**
+//     * get translations file data from whiteLabel assets
+//     *
+//     * @param language
+//     * @return translations {@link JSONObject}
+//     */
+//    @Step("Get Translation for language {0}")
     public JSONObject getTranslation(ELanguage language) {
         http.get(domain + LANGUAGES_ROUTE + "/" + language.code + ".json")
                 .execute();
 
         setResponseData();
-        return http.toJSON();
+        try {
+            return http.toJSON();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
-    /**
-     * get iata locations list from whiteLabel iata controller
-     *
-     * @param iataCode {@link String}
-     * @return List of locations
-     */
-    @Step("Get IATA by code {0}")
+    //    /**
+//     * get iata locations list from whiteLabel iata controller
+//     *
+//     * @param iataCode {@link String}
+//     * @return List of locations
+//     */
+//    @Step("Get IATA by code {0}")
     public List<LocationDTO> getIATA(String iataCode) {
 
         http.get(domain + IATA_DICTIONARY_ROUTE + "/" + iataCode)
                 .execute();
         setResponseData();
 
-        JSONArray list = new JSONArray(http.toString());
+        JSONArray list = null;
+        try {
+            list = new JSONArray(http.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         List<LocationDTO> dtoList = new ArrayList<>();
 
         for (Object o : list) {
@@ -116,29 +127,34 @@ public class WhiteLabelApi {
         return dtoList;
     }
 
-    /**
-     * Send search request to whiteLabel search controller.
-     *
-     * @param searchFormDTO {@link SearchRequestDTO}
-     * @return search request id (srid)
-     */
-    @Step("Submit Search Request")
+    //    /**
+//     * Send search request to whiteLabel search controller.
+//     *
+//     * @param searchFormDTO {@link SearchRequestDTO}
+//     * @return search request id (srid)
+//     */
+//    @Step("Submit Search Request")
     public String search(SearchRequestDTO searchFormDTO) {
         JSONObject body = Serializable.serialize(searchFormDTO, true);
         http.post(domain + SEARCH_ROUTE, body)
                 .execute();
 
         setResponseData();
-        return http.toJSON().getString("srid");
+        try {
+            return http.toJSON().getString("srid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    /**
-     * get rates from whiteLabel search controller by request DTO
-     *
-     * @param srid {@link SearchRequestDTO}
-     * @return list of results
-     */
-    @Step("Get Search Params by srid: {0}")
+    //    /**
+//     * get rates from whiteLabel search controller by request DTO
+//     *
+//     * @param srid {@link SearchRequestDTO}
+//     * @return list of results
+//     */
+//    @Step("Get Search Params by srid: {0}")
     public SearchRequestDTO getSearchFormParams(String srid) {
         http.get(domain + SEARCH_ROUTE + "/" + srid + "/form")
                 .execute();
@@ -146,13 +162,13 @@ public class WhiteLabelApi {
         return deserializeResponse(SearchRequestDTO.class);
     }
 
-    /**
-     * get rates from whiteLabel search controller
-     *
-     * @param srid {@link String}
-     * @return list of results
-     */
-    @Step("Get Search Params by srid: {0}")
+    //    /**
+//     * get rates from whiteLabel search controller
+//     *
+//     * @param srid {@link String}
+//     * @return list of results
+//     */
+//    @Step("Get Search Params by srid: {0}")
     public SearchResultDTO getSearchResults(String srid) {
         http.get(domain + SEARCH_ROUTE + "/" + srid + "/result/data")
                 .execute();
@@ -160,13 +176,13 @@ public class WhiteLabelApi {
         return deserializeResponse(SearchResultDTO.class);
     }
 
-    /**
-     * get RateInfo by offerId from whiteLabel rateInfo controller
-     *
-     * @param offerId {@link String}
-     * @return detailed rate info
-     */
-    @Step("Get Rate Info Details by offerId {0}")
+    //    /**
+//     * get RateInfo by offerId from whiteLabel rateInfo controller
+//     *
+//     * @param offerId {@link String}
+//     * @return detailed rate info
+//     */
+//    @Step("Get Rate Info Details by offerId {0}")
     public RateInfoDetailsDTO getRateInfoDetails(String offerId) {
         http.get(domain + RATE_INFO_ROUTE + "/" + offerId)
                 .execute();
@@ -174,14 +190,14 @@ public class WhiteLabelApi {
         return deserializeResponse(RateInfoDetailsDTO.class);
     }
 
-    /**
-     * loop request process to get search results by search request id from whiteLabel search controller
-     *
-     * @param srid                 {@link String}
-     * @param maxWaitTimeInSeconds {@link Integer}
-     * @return list of results
-     */
-    @Step("Get Search Results by srid: {0}")
+    //    /**
+//     * loop request process to get search results by search request id from whiteLabel search controller
+//     *
+//     * @param srid                 {@link String}
+//     * @param maxWaitTimeInSeconds {@link Integer}
+//     * @return list of results
+//     */
+//    @Step("Get Search Results by srid: {0}")
     public SearchResultDTO getSearchResults(String srid, int maxWaitTimeInSeconds) {
 
         long breakTime = System.currentTimeMillis() + maxWaitTimeInSeconds * 1000;
@@ -201,28 +217,33 @@ public class WhiteLabelApi {
         return dto;
     }
 
-    /**
-     * get jsonObject of terms and contitions from whiteLabel offer controller
-     *
-     * @param offerId {@link String}
-     * @return JSONObject of terms and conditions
-     */
-    @Step("Get Terms Url by offerId: {0}")
+    //    /**
+//     * get jsonObject of terms and contitions from whiteLabel offer controller
+//     *
+//     * @param offerId {@link String}
+//     * @return JSONObject of terms and conditions
+//     */
+//    @Step("Get Terms Url by offerId: {0}")
     public JSONObject getTermsUrl(String offerId) {
         http.get(domain + OFFERS_ROUTE + "/" + offerId + "/termsUrl")
                 .execute();
 
         setResponseData();
-        return http.toJSON();
+        try {
+            return http.toJSON();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    /**
-     * get html terms and contditions from whiteLabel offer controller
-     *
-     * @param offerId {@link String}
-     * @return String context of terms and contitions
-     */
-    @Step("Get Terms by offerId: {0}")
+    //    /**
+//     * get html terms and contditions from whiteLabel offer controller
+//     *
+//     * @param offerId {@link String}
+//     * @return String context of terms and contitions
+//     */
+//    @Step("Get Terms by offerId: {0}")
     public String getTerms(String offerId) {
         http.get(domain + OFFERS_ROUTE + "/" + offerId + "/terms")
                 .execute();
@@ -231,19 +252,25 @@ public class WhiteLabelApi {
         return http.toString();
     }
 
-    /**
-     * get list of booked offers from whiteLabel booking controller
-     *
-     * @param pnr      {@link String}
-     * @param lastName {@link String}
-     * @return list of booked offers
-     */
-    @Step("Get My Bookings by PNR: [{0}][{1}]")
+    //
+//    /**
+//     * get list of booked offers from whiteLabel booking controller
+//     *
+//     * @param pnr      {@link String}
+//     * @param lastName {@link String}
+//     * @return list of booked offers
+//     */
+//    @Step("Get My Bookings by PNR: [{0}][{1}]")
     public List<BookingResponseDTO.Data> getMyBookings(String pnr, String lastName) {
         http.get(domain + MY_BOOKING_ROUTE + "?pnrLocator=" + pnr + "&lastName=" + lastName)
                 .execute();
 
-        JSONArray array = http.toJSON().getJSONArray("data");
+        JSONArray array = null;
+        try {
+            array = http.toJSON().getJSONArray("data");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         setResponseData();
         List<BookingResponseDTO.Data> results = new ArrayList<>();
         for (Object o : array) {
@@ -258,13 +285,13 @@ public class WhiteLabelApi {
         return getClientConfig(officeId.getValue());
     }
 
-    /**
-     * get clientConfig data by officeId
-     *
-     * @param officeId {@link String}
-     * @return ClientConfigEntity
-     */
-    @Step("Get Client Config")
+    //    /**
+//     * get clientConfig data by officeId
+//     *
+//     * @param officeId {@link String}
+//     * @return ClientConfigEntity
+//     */
+//    @Step("Get Client Config")
     public ClientConfigDTO getClientConfig(String officeId) {
         String str;
         Pattern pattern;
@@ -294,14 +321,14 @@ public class WhiteLabelApi {
         return getClientConfig("");
     }
 
-
-    /**
-     * send offer booking request to whiteLabel booking controller and get booking response
-     *
-     * @param bookingRequest {@link BookingRequestDTO}
-     * @return booking response
-     */
-    @Step("Book a Car")
+    //
+//    /**
+//     * send offer booking request to whiteLabel booking controller and get booking response
+//     *
+//     * @param bookingRequest {@link BookingRequestDTO}
+//     * @return booking response
+//     */
+//    @Step("Book a Car")
     public BookingResponseDTO bookCar(BookingRequestDTO bookingRequest) {
         http.post(domain + BOOKING_ROUTE, Serializable.serialize(bookingRequest, false))
                 .execute();
@@ -310,14 +337,14 @@ public class WhiteLabelApi {
     }
 
 
-    /**
-     * send cancel booking reqeust (pnr_cancel) to whiteLabel myBookings controller
-     *
-     * @param confirmationNumber {@link String}
-     * @param pnrLocator         {@link String}
-     * @return result of operation
-     */
-    @Step("Cancel booking")
+    //    /**
+//     * send cancel booking reqeust (pnr_cancel) to whiteLabel myBookings controller
+//     *
+//     * @param confirmationNumber {@link String}
+//     * @param pnrLocator         {@link String}
+//     * @return result of operation
+//     */
+//    @Step("Cancel booking")
     public BookingCancelDTO pnrCancel(String confirmationNumber, String pnrLocator) {
         JSONObject rq = new JSONObject();
         rq.put("pnrLocator", pnrLocator).put("confirmationNumber", confirmationNumber);

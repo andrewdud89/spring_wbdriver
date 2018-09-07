@@ -1,6 +1,7 @@
 package base.core.dto;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.DiscountDTO;
+
+import base.core.dto.components.DiscountDTO;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

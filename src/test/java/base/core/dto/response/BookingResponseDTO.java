@@ -1,13 +1,14 @@
 package base.core.dto.response;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.DriverDetailDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.LocationDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.ProviderDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.offer.MileageIncludedDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.offer.VehicleDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.rate.ChargeDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.rate.PriceBreakDownDTO;
-import amadeus.core.convertor.Serializable;
+
+import base.core.convertor.Serializable;
+import base.core.dto.components.DriverDetailDTO;
+import base.core.dto.components.LocationDTO;
+import base.core.dto.components.ProviderDTO;
+import base.core.dto.components.offer.MileageIncludedDTO;
+import base.core.dto.components.offer.VehicleDTO;
+import base.core.dto.components.rate.ChargeDTO;
+import base.core.dto.components.rate.PriceBreakDownDTO;
 
 import java.util.List;
 

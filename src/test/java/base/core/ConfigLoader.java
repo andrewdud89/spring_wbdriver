@@ -1,6 +1,6 @@
 package base.core;
 
-import amadeus.cars.automatron.core.constants.Dir;
+import base.core.constants.Dir;
 
 import java.io.FileReader;
 import java.io.IOException;

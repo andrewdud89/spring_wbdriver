@@ -1,6 +1,6 @@
 package base.core.convertor;
 
-import amadeus.core.annotations.RequiredField;
+import base.core.annotations.RequiredField;
 import com.google.gson.*;
 
 import java.lang.reflect.Field;

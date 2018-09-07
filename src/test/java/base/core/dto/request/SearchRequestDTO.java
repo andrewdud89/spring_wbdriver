@@ -1,8 +1,9 @@
 package base.core.dto.request;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.DiscountDTO;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.LocationDTO;
-import amadeus.core.convertor.Serializable;
+
+import base.core.convertor.Serializable;
+import base.core.dto.components.DiscountDTO;
+import base.core.dto.components.LocationDTO;
 
 import java.util.List;
 

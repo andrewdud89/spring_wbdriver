@@ -1,6 +1,6 @@
 package base.core.listeners;
 
-import amadeus.cars.automatron.core.TestScenario;
+
 import org.apache.log4j.Logger;
 import org.testng.*;
 

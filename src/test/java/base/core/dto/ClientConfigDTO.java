@@ -1,10 +1,10 @@
 package base.core.dto;
 
 
-import amadeus.cars.automatron.core.enums.ECarProviders;
-import amadeus.cars.automatron.core.enums.ECurrency;
-import amadeus.cars.automatron.core.enums.ELanguage;
-import amadeus.core.convertor.Serializable;
+import base.core.convertor.Serializable;
+import base.core.enums.ECarProviders;
+import base.core.enums.ECurrency;
+import base.core.enums.ELanguage;
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Field;

@@ -1,7 +1,8 @@
 package base.core.dto.response;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.dto.components.offer.OfferDTO;
-import amadeus.core.convertor.Serializable;
+
+import base.core.convertor.Serializable;
+import base.core.dto.components.offer.OfferDTO;
 
 import java.util.ArrayList;
 import java.util.List;

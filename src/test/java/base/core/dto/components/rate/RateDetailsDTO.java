@@ -1,6 +1,6 @@
 package base.core.dto.components.rate;
 
-import amadeus.core.convertor.Serializable;
+import base.core.convertor.Serializable;
 
 import java.util.List;
 

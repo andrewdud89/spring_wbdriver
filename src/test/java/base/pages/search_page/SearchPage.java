@@ -1,11 +1,10 @@
 package base.pages.search_page;
 
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.pageObject.blocks.DiscountsBlock;
-import amadeus.cars.automatron.carsbookingengine.whiteLabel.pageObject.blocks.SearchFormBlock;
 import base.pages.CarsPage;
+import base.pages.DiscountsBlock;
+import base.pages.SearchFormBlock;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class SearchPage extends CarsPage {
 
@@ -21,17 +20,17 @@ public class SearchPage extends CarsPage {
     @FindBy(xpath = "//div[@class='coupon-deactivator']/button")
     private WebElement discountsDectivator;
 
-    public SearchPage(EventFiringWebDriver driver) {
-        super(driver);
+    public SearchPage() {
+
     }
 
     public SearchFormBlock getSearchForm() {
-        return new SearchFormBlock(driver, appSearchForm);
+        return new SearchFormBlock(getDriver(), appSearchForm);
     }
 
     public DiscountsBlock getDiscountsBlock() {
         showDiscounts();
-        return new DiscountsBlock(driver, appSearchDiscounts);
+        return new DiscountsBlock(getDriver(), appSearchDiscounts);
     }
 
     public void showDiscounts() {
